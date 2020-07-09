@@ -1,0 +1,17 @@
+{% extends "inout/base1.html" %}
+{% block content %}
+
+
+<div class="">
+  <table>
+    {% for array in data2 %}
+    {% for content in array %}
+
+    <h1>{{content}}</h1>
+    {% endfor %}
+    {% endfor %}
+
+  </table>
+
+</div>
+{% endblock  %}

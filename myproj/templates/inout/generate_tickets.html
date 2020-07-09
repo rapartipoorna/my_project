@@ -1,0 +1,306 @@
+{% extends "inout/base1.html" %}
+{% block content %}
+<style>
+  td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+tr, td {
+  padding: 5px;
+  text-align: left;
+}
+table#t01 {
+  width: 100%;
+  background-color: #FFFFFF;
+}
+
+
+.white{
+ background-color:#FFFFFF;
+}
+
+.red{
+    background-color:#FF0000;
+}
+.jumbotron{
+  display:grid;
+
+}
+#my_para_div{
+
+
+
+
+}
+span{
+ width:20px;
+ font-family:serif;
+ font-size: 30px;
+ color:#DC143C;
+
+}
+.my{
+justify-content: center;
+}
+.my1{
+justify-content: center;
+}
+.mycaption{
+
+}
+.highlight {
+    background-color: red;
+  }
+
+#sp_div li:first-child{
+  background-color: #00FA9A;
+  font-weight: bold;
+}
+</style>
+
+  <div class="container col-md-12 col-sm-12 col-xsm-12">
+    <div class="jumbotron col-md-12 col-sm-12 col-xsm-12">
+<!--<div class="wraper">-->
+
+
+
+
+   <div class="form-row my">
+     <div class="form-group row ">
+       <div class="col-md-5 col-sm-5 col-xsm-5">
+         <input type="number" class="form-control" id="text_id" name="param" min="1" max="8">
+       </div>
+        <div class="col-md-5 col-sm-5 col-xsm-5">
+          <button type="button" id="submit_id" class="btn btn-success form-control" name="button">Generate Tickets</button>
+
+
+        </div>
+     </div>
+
+    <div id="my_para_div" class="form-group col-md-2 col-sm-2 col-xsm-2">
+      <input type="button" id="generated_num_id" class="btn btn-outline-info" value="SEE GENERATED NUMBER">
+
+      <br><br>
+       <strong><p id="para"></p></strong>
+        <div id="mynumbers_div" class="">
+
+        </div>
+
+
+    </div>
+  <br><br><br>
+   </div>
+
+
+<div class="form-row my1" >
+
+<div class="my_table col-md-5" style="background-color:yellow;overflow-x:auto">
+
+
+</div>
+
+
+
+
+
+    </div>
+
+
+
+</div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+
+  $(document).on('click', 'td', function () {
+    var this1=$(this)
+
+    var colours=(this1).hasClass('red')
+    if(colours==true){
+       if(window.confirm("Are You Sure To Unselect Number " +this1.text())){
+         this1.removeClass('red')
+       }
+    }
+    else{
+
+      (this1).addClass('red')
+    }
+
+
+  })
+
+
+
+
+  $('#generated_num_id').on('click',function(){
+    $('#para').text("Please See Below of Every Ticket")
+    refresh_savingnumber();
+  })
+
+    function refresh_savingnumber(){
+      setInterval("savingnumber()",1000)
+    }
+    function savingnumber(){
+
+
+      $.ajax({
+        url:'ajax/see_generated_number',
+        dataType:'json',
+
+        success:function(data){
+
+          console.log(data)
+          for(i in data){
+
+            $("span").text(data[i].fields.Random_Number)
+
+          }
+
+
+        }
+
+      })
+    }
+
+
+
+
+
+
+    var my_array=[]
+    var table_body
+
+
+$('#submit_id').on('click',function(){
+  var n=parseInt($('#text_id').val())
+  if(n<"10"){
+
+    $('#submit_id'). attr('disabled', true);
+    n_tickets=$('#text_id').val()
+    $.ajax({
+
+      url:'ajax/get_tickets/',
+      dataType:'json',
+      data:{'n_tickets':n_tickets},
+      success:function(decodedArrays){
+
+        for(i in decodedArrays.array){
+          function randomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+  }
+           var number=randomNumber(1000,5000)
+
+          table_body='<table border="1" align="center" id="t01">'
+            table_body+='<caption class="mycaption">{{request.user.username | upper}}</caption>'
+            table_body+='<strong align="center">POORNA FAMILY TAMBOOLA</strong>'
+            table_body+='<br>'
+            table_body+='TICKET-NUMBER -'+'<strong>'+number+'</strong>'
+            for(j in decodedArrays.array[i]){
+              table_body+='<tr>'
+                for(k in decodedArrays.array[i][j]){
+                  table_body+='<td>'
+                  table_body+=decodedArrays.array[i][j][k]
+                  table_body+='</td>'
+                }
+                table_body+='</tr>'
+            }
+            table_body+='</table>'
+            table_body+='<br>'
+            table_body+='<span></span>'
+            table_body+='<br>'
+            table_body+='<div id="sp_div"></div>'
+
+            my_array.push(table_body)
+            //my_array.push(table_body1)
+        }
+          $('.my_table').html(my_array)
+        //  table_body1=""
+
+
+
+        }
+      })
+
+
+
+  }
+
+  else{
+    alert("please Enter Valid Value")
+    $('#text_id').val("")
+    $('#text_id').focus()
+
+  }
+
+
+
+
+  })
+
+  refresh_get_status();
+  function refresh_get_status(){
+    setInterval("get_status()",1000)
+  }
+  function get_status(){
+
+
+    $.ajax({
+      url:'ajax/get_user_status',
+      dataType:'json',
+
+      success:function(status_data){
+          var table_body2=[]
+          var table_body1
+          table_body1+='<ul>'
+          for(i in status_data){
+
+            table_body1+='<li id="ll">'+status_data[i].fields.user_status+'</li>'
+
+          }
+          table_body1+='</ul>'
+
+          table_body2.push(table_body1)
+
+          $("[id='sp_div']").html(table_body2)      //it will apply to all div tags having same id sp_div , we shoud use brackets
+              }
+
+        })
+
+
+}
+
+
+//$("#sp_div" ).find("li").first().addClass( "highlight" )
+
+$(document).ready(function() {
+    $("#text_id").keydown(function(event) {
+        var num=parseInt($('#text_id').val())
+        if(num>'8'){
+          $('#text_id').val("")
+          $('#text_id').focus()
+          alert("between 1 and 8 only ")
+          event.preventDefault();
+        }
+        // Allow only backspace and delete
+        if ( event.keyCode == 46 || event.keyCode == 8 ) {
+            // let it happen, don't do anything
+        }
+        else {
+            // Ensure that it is a number and stop the keypress
+            if (event.keyCode < 48 || event.keyCode > 57 ) {
+                event.preventDefault();
+            }
+        }
+    });
+});
+
+
+
+
+
+
+
+</script>
+{% endblock %}

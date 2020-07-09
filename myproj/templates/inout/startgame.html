@@ -1,0 +1,481 @@
+{% extends "inout/base1.html" %}
+
+{% block content %}
+
+
+<style>
+    td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  tr, td {
+    padding: 5px;
+    text-align: left;
+  }
+  table#t01 {
+    width: 100%;
+    background-color: #FFFFFF;
+  }
+    table#tb2 {
+        width: 100%;
+      background-color: #FFFFFF;
+
+
+  }
+  table#table_id{
+    width: 100%;
+    background-color: #FFFFFF;
+  }
+
+  .wraper{
+    display:grid;
+
+  }
+
+
+  .white{
+    background-color:#FFFFFF;
+}
+
+.red{
+    background-color:#FF0000;
+}
+
+.exitButton{
+    margin: 0 20px;
+}
+#div1_id{
+  margin: 10px 0 0 10px;
+  overflow-x:auto;
+
+}
+#div1_id p{
+  font-size: 2em;
+
+}
+.active_div{
+   background-color:#a1e3be;
+   width:200px;
+   border:1px solid green;
+   margin:40px;
+   padding:10px;
+ }
+ #para_id{
+
+    }
+    #ticket_div{
+      height:300px;
+      margin:50px;
+      overflow-x: auto;
+
+    }
+    #active_div{
+      height:80px;
+      margin:20px;
+      overflow-x: auto;
+    }
+    h4 span{
+      background-color:#0000b3;
+      color:white;
+    }
+    caption{
+      color:red;
+      font-weight:bold;
+    }
+    #mydatatable{
+      background-color:#FFFFFF;
+    }
+    #active_btn_id{
+        --animate-repeat:200;
+    }
+    #verify_id{
+      visibility: hidden;
+    }
+ .myrow{
+   justify-content: center;
+ }
+#para_id{
+  width:200px;
+}
+#table_id{
+
+overflow-x:auto;
+}
+
+
+</style>
+
+<div class="container col-md-12">
+  <div class="jumbotron col-md-12">
+    <h1 align="center">Welcome To Dashboard </h1>
+
+
+     <form>
+       <div class="form-row myrow">
+
+        <div class="from-group col-md-3 col-sm-4">
+         <!--  <a  class="btn btn-lg btn-success" href="/active">Get All active users</a>-->
+            <button id="active_btn_id" class=" btn btn-lg btn-success animate__animated animate__fadeIn animate__repeat-2 animate__slow" type="button"  name="button">ACTIVE USERS</button>
+            <div id="active_div" align="center" class="">
+               <p id="my_p"></p>
+            </div>
+
+        </div>
+            <div class="from-group col-md-4 col-sm-8">
+               <h4></h4>
+               <div id="ticket_div" align="center"class="">
+
+               </div>
+               <!--<button id="verify_id"type="button" class="btn btn-outline-warning" name="button">Verify</button>-->
+        </div>
+
+
+       <div id="mydiv" style= "" class="from-group col-md-5 ">
+
+          <button id="start_btn_id" class="btn btn-lg btn-success" type="button"  name="button">START THE GAME</button>
+          <br><br>
+
+          <table id="table_id" align="center" class="">
+
+          </table>
+          </div>
+
+
+         </form>
+
+         </div>
+
+
+
+
+  </div>
+
+
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+  window.onload=function(){
+  setupRefresh();
+  verify();
+  }
+var get_divtag=document.getElementById("mydiv");
+var start_btn=document.getElementById("start_btn_id");
+var random_for_check=[]
+start_btn.addEventListener("click",function(){
+var my_table=document.getElementById("table_id");
+var k=0;
+for(var i=1;i<=9;i++){
+  var row=my_table.insertRow();
+  var cell;
+  for(var j=1;j<=10;j++){
+    cell=row.insertCell();
+    cell.innerText=k+j;
+
+  }
+  k=k+j-1;
+}
+
+var div=document.getElementById("mydiv");
+var next=document.createElement("input");
+next.className="btn btn-success col-xsm-4";
+next.setAttribute('type', 'button');
+next.setAttribute('value', 'Next');
+next.id="nxt_id";
+var exit=document.createElement("input")
+exit.className="btn  btn-danger exitButton col-xsm-4";
+exit.setAttribute('type', 'button');
+exit.setAttribute('value', 'Exit Game');
+exit.id="exit_id";
+var dbr=document.createElement("br");
+div.appendChild(dbr);
+div.appendChild(next);
+div.appendChild(exit);
+
+
+start_btn.disabled=true;
+
+exit.onclick=function(){
+  del_save_random_number();
+
+  function del_save_random_number(){
+    $.ajax({
+      //type:'POST',
+      url:'ajax/delete_data',
+      datatype:'json',
+      success:function(data){
+        alert("success")
+      }
+    })
+  }
+
+
+  var next_bt=document.getElementById("nxt_id");
+  var exit_bt=document.getElementById("exit_id");
+  var my_tb=document.getElementById("table_id");
+  my_tb.parentNode.removeChild(my_tb);
+  //get_divtag.parentNode.removeChild(get_divtag);
+  next_bt.parentNode.removeChild(next_bt);
+  var div=document.getElementById("div1_id");
+  div.parentNode.removeChild(div);
+  exit_bt.parentNode.removeChild(exit_bt);
+  var restart_button=document.createElement("input");
+  restart_button.id="restart_id";
+  restart_button.type="button";
+  restart_button.className="btn btn-lg btn-primary";
+  restart_button.value="RESTART THE GAME";
+  var get_div=document.getElementById("mydiv");
+  get_div.appendChild(restart_button);
+  var get_restart_btn=document.getElementById("restart_id");
+  get_restart_btn.onclick=function(){
+    get_restart_btn.parentNode.removeChild(get_restart_btn);
+
+    location.reload(true);
+  }
+
+
+
+
+}
+
+var my_p=document.createElement('p');
+var div1=document.createElement('div');
+div1.id='div1_id';
+var div=document.getElementById("mydiv")
+
+div.appendChild(div1);
+my_p.id="para_id";
+//my_p.style.width="10px";
+div1.appendChild(my_p);
+
+next.onclick=function(){
+
+  if(numbersArray.length==0){
+    alert("No More Numbers");
+
+  }
+    var randomIndex=getRandomNumber(0,numbersArray.length-1);
+    var randomNumber=numbersArray[randomIndex];
+    sendrandomnumber();
+    //compare();
+
+    function sendrandomnumber(){
+      $.ajax({
+        url:'ajax/sessiondata/',
+        //type:'POST',
+        dataType:'json',
+        data:{'randomNumber':randomNumber},
+        //success:function(data){
+        //  var result=[]
+        //  var newhtml=[]
+        //}
+      })
+    }
+    function compare(){
+      $.ajax({
+        url:'ajax/comparedata/',
+        success:function(data){
+          alert("success")
+        }
+      })
+    }
+    //request.session['number']=randomNumber
+    random_for_check.push(randomNumber)
+    numbersArray.splice(randomIndex,1);
+
+    var get_p=document.getElementById('para_id');
+    get_p=get_p.innerText=get_p.innerText+randomNumber+',';
+
+
+    //var my_td=document.querySelectorAll('td');
+    var my_td=document.querySelectorAll('td') //for selecting  all tds in document
+    for(i=0;i<my_td.length;i++){
+      if(my_td[i].innerText==randomNumber){
+        my_td[i].className='red';
+      }
+    }
+
+
+}
+
+
+});
+var numbersArray=createArrayOfNumbers(1,91);
+function getRandomNumber(min,max){
+  var step1=max-min+1;
+  var step2=Math.random()*step1;
+  var result=Math.floor(step2)+min;
+  return result;
+}
+
+function createArrayOfNumbers(start,end){
+  var myArray=[];
+  for(var i=start;i<=end;i++){
+    myArray.push(i);
+  }
+  return myArray;
+}
+
+
+function setupRefresh(){
+  setInterval("getactive()",3000)
+}
+function getactive(){
+  $.ajax({
+    url:'ajax/active_users/',
+    dataType:'json',
+    success:function(data){
+      var result=[]
+      var newhtml=[]
+
+      for (i in data){
+      newhtml.push('<a href="">' +data[i].fields.username.toUpperCase()+'</a>')
+      }
+      $("#active_div").html(newhtml.join("<br>"))
+
+
+    }
+  })
+}
+
+$("#active_div").on('click','a',function(e){
+   e.preventDefault()
+   $("#verify_id").css('visibility', 'visible') // to display verify button
+  var username=$(this).text()
+  //$('#verify_id').show()
+ $.ajax({
+
+    url:'ajax/user_ticket_info/',
+   //type:'POST',
+    data:{'username':username},
+    dataType:'json',
+
+
+    success:function(data){
+    var  new_array=[]
+
+        for(k in data){
+          var table = $('<table id="mydatatable"></table>')
+              for (j = 0; j < 3; j++) {
+                  var row = $('<tr></tr>')
+                    if(j==0){
+                      var x=data[k].fields.first_row
+
+                      var y=x.replace(/\s+/g,',')        //replace spaces from string with comma
+                      var z=y.replace(/[\[\]']+/g,',')   //replace square brackets from string with comma
+
+                      var xyz=z.split(',')               //split string into array with comma separate
+                      //loop through the string
+                      for(i=2;i<xyz.length-1;i++){
+
+                        var row1 = $('<td></td>').text(xyz[i]);
+                        row.append(row1);
+                    }
+                  }
+                  if(j==1){
+                    var x=data[k].fields.second_row
+
+                    var y=x.replace(/\s+/g,',')        //replace spaces from string with comma
+                    var z=y.replace(/[\[\]']+/g,',')   //replace square brackets from string with comma
+
+                    var xyz=z.split(',')               //split string into array with comma separate
+                    //loop through the string
+                    for(i=2;i<xyz.length-1;i++){
+
+                      var row1 = $('<td></td>').text(xyz[i]);
+                      row.append(row1);
+                  }
+                }
+                 if(j==2){
+                   var x=data[k].fields.third_row
+
+                   var y=x.replace(/\s+/g,',')        //replace spaces from string with comma
+                   var z=y.replace(/[\[\]']+/g,',')   //replace square brackets from string with comma
+
+                   var xyz=z.split(',')               //split string into array with comma separate
+                   //loop through the string
+                   for(i=2;i<xyz.length-1;i++){
+
+                     var row1 = $('<td></td>').text(xyz[i]);
+                     row.append(row1);
+                 }
+                 }
+
+
+
+
+
+                  table.append(row);
+
+              }
+              new_array.push('<caption>'+"TicketNo:"+data[k].fields.ticketnum+'</caption>')
+              new_array.push(table,'<br></br>')
+
+              $('#ticket_div').html(new_array);
+
+             $('h4').html('<span>'+data[k].fields.username.toUpperCase()+' TICKET INFORMATION'+'</span>')
+
+             /////*******to check usertickets of matching numbers from paragraph******////
+
+             //var check_td=$('#ticket_div  td');
+             //for(s=0;s<check_td.length;s++){
+
+            //  for(m=0;m<random_for_check.length;m++){
+
+                //  if(check_td[s].text()==random_for_check[m]){
+                //    check_td[s].addClass('red')
+                //  }
+              //  }
+
+          //   }
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+  }
+})
+})
+
+//*** to verify matched numbers in all tickets*****////
+//window.onload=verify;
+
+///$("#verify_id").on('click',function(){
+
+
+ function verify(){
+   setInterval("checked()",1000)
+ }
+ function checked()
+ {
+   var check_td=$('#ticket_div table td');
+   for(s=0;s<check_td.length;s++){
+
+   for(m=0;m<random_for_check.length;m++){
+
+       if($(check_td[s]).text()==random_for_check[m]){
+        $(check_td[s]).addClass('red')
+      }
+     }
+
+   }
+
+ }
+//  testing();
+//  function testing(){
+//    setInterval("tested()",5000)
+//  }
+// function tested(){
+//   console.log({{data143}})
+// }
+
+
+</script>
+{% endblock %}

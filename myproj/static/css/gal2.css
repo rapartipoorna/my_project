@@ -1,0 +1,98 @@
+
+.navbar-light{
+
+
+}
+
+.navbar .navbar-brand,.navbar .navbar-nav .nav-item .nav-link{
+  color:white;
+}
+
+.form-inline .btn-outline-success{
+  background-color: red;
+}
+.container{
+  padding:20px;
+
+  margin-top: 20px;
+  background-color: #EF3320;
+
+
+
+
+
+}
+.jumbotron{
+  background-color: #00ff80;
+
+}
+.mynavbar{
+background-color: #0000b3;
+
+}
+span{
+
+
+ color: white;
+  padding: 20px;
+
+}
+h1{
+  text-align: center;
+  color: white;
+
+
+}
+hr{
+  border: 1px solid black;
+}
+body{
+
+
+
+}
+.button{
+  text-align: center;
+
+}
+.btn-dark{
+  color:yellow;
+
+}
+.jumbotron-special{
+  background-color: #3E160B;
+
+
+}
+
+.mycontainer {
+  padding:50px;
+}
+img{
+  margin: 10px;
+
+
+
+}
+
+.myimage{
+
+}
+.btn-success{
+  background-color: red;
+}
+.mydiv{
+  text-align: center;
+
+}
+p{
+  color:white;
+}
+.underreg{
+  color: white;
+  text-align: center;
+}
+.mylb{
+font: 16px "Lucida Grande", "Helvetica", "Arial", "sans-serif"
+color:red;
+}

@@ -1,0 +1,43 @@
+.mynavbar{
+background-color: #0000b3;
+}
+.jumbotron{
+
+  text-align: center;
+}
+
+.navbar .navbar-brand,.navbar .navbar-nav .nav-item .nav-link{
+  color:white;
+}
+body{
+
+
+  background-image: url('{% static "images/image3.jpg" %}');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.myclass{
+text-align:justify;
+
+}
+.mydiv{
+
+
+}
+
+.mytable{
+
+}
+
+.mycaption{
+  background-color: red;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+.table  .myt{
+  width:30;
+}
+ .myusername{
+ background-color: red;
+}

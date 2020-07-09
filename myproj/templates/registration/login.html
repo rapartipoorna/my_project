@@ -1,0 +1,27 @@
+{% extends "inout/base1.html" %}
+
+
+
+{% block content %}
+<div class="container">
+  <div class="jumbotron">
+    <h1>Welcome To Login Page</h1>
+    <form method="post">
+      {{form.as_p}}
+      {% csrf_token %}
+      <div class="mydiv">
+      &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+       <input type="submit"class="btn btn-danger" name="" value="Login">
+      &emsp;  <strong>For Registration <a href="/signup">Click Here</a></strong>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+<script>
+
+</script>
+
+{% endblock %}

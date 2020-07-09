@@ -1,0 +1,46 @@
+{% extends 'inout/base1.html'  %}
+
+{% block javascript %}
+<script>
+ $("#id_username").change(function(){
+
+    var username=$(this).val()
+    console.log(username)
+     $.ajax({
+      url:'/ajax/validate_username',
+      data:{
+        'username':username},
+      dataType:'json',
+        success:function(data){
+
+          if(data.is_taken){
+            alert(data.error_message);
+            $("#id_username").focus()
+            $("#id_username").val("")
+          }
+        }
+      })
+
+  })
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+<div class="container mycontainer">
+  <div class="jumbotron">
+    <div class="form-group myclass" >
+
+
+    <form method="post" autocomplete="off"  >
+      {{form.as_p}}
+      {% csrf_token %}
+     <input type="submit" text-align="center"class="btn btn-primary" name="" value="SignUp">
+    </form>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
