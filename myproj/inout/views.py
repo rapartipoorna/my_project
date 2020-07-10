@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from inout.forms import SignUpForm
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
-from rest_framework import serializers
 from django.core.serializers import serialize
 from django.contrib.auth.models import User
 import sys
